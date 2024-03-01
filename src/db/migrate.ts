@@ -1,5 +1,6 @@
 import { drizzle } from "drizzle-orm/neon-http";
 import { migrate } from "drizzle-orm/neon-http/migrator";
+import type { NeonQueryFunction } from "@neondatabase/serverless";
 import { neon } from "@neondatabase/serverless";
 import "dotenv/config";
 
@@ -15,7 +16,7 @@ if (!connectionString) {
 
 const sql = neon(connectionString);
 
-const db = drizzle(sql);
+export const db = drizzle(sql as NeonQueryFunction<boolean, boolean>);
 
 const main = async () => {
 	try {
