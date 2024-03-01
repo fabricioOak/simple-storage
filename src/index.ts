@@ -3,8 +3,6 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { csrf } from "hono/csrf";
 
-export const runtime = "edge";
-
 import { serve } from "@hono/node-server";
 import productRoutes from "./routes/productRoutes";
 
@@ -19,3 +17,5 @@ serve({
 	port: 3000,
 	fetch: app.fetch,
 });
+
+export const runtime = "edge";
