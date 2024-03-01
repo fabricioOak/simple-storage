@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "build": "tsc",
     "start": "npx ts-node src/index.ts",
     "deploy": "hono deploy",
     "db:generate": "drizzle-kit generate:pg --schema ./src/db/schema.ts --out=./src/db/migrations",
@@ -21,6 +22,7 @@
     "@types/node": "^20.11.17",
     "drizzle-kit": "^0.20.14",
     "ts-node": "^10.9.2",
-    "tsx": "^3.12.2"
+    "tsx": "^3.12.2",
+    "typescript": "^4.6.2"
   }
 }
