@@ -1,5 +1,5 @@
 {
-  "id": "a5a87d6d-087e-4fe7-a639-82094e04b063",
+  "id": "403ca5fb-2d9b-497e-8c33-77f0b2c7663c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -240,6 +240,12 @@
         "price": {
           "name": "price",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
