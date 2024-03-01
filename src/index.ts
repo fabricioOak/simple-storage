@@ -1,16 +1,23 @@
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import "dotenv/config";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { csrf } from "hono/csrf";
 
-const app = new Hono()
+export const runtime = "edge";
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+import { serve } from "@hono/node-server";
+import productRoutes from "./routes/productRoutes";
 
-const port = 3000
-console.log(`Server is running on port ${port}`)
+const PORT = process.env.PORT || 5000;
+
+const app = new Hono();
+
+app.use(cors());
+app.use(csrf());
+
+productRoutes(app);
 
 serve({
-  fetch: app.fetch,
-  port
-})
+	port: PORT as number,
+	fetch: app.fetch,
+});
