@@ -1,6 +1,11 @@
 {
+  "name": "simple-storage",
+  "version": "0.1.0",
+  "module": "src/index.ts",
+  "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "deploy": "hono deploy",
     "db:generate": "drizzle-kit generate:pg --schema ./src/db/schema.ts --out=./src/db/migrations",
     "db:migrate": "tsx ./src/db/migrate.ts"
   },
