@@ -8,8 +8,6 @@ export const runtime = "edge";
 import { serve } from "@hono/node-server";
 import productRoutes from "./routes/productRoutes";
 
-const PORT = process.env.PORT || 5000;
-
 const app = new Hono();
 
 app.use(cors());
@@ -18,6 +16,6 @@ app.use(csrf());
 productRoutes(app);
 
 serve({
-	port: PORT as number,
+	port: 3000,
 	fetch: app.fetch,
 });
