@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, integer, timestamp, serial } from "drizzle-orm/pg-core";
 
-export const clients = pgTable("clients", {
+export const customer = pgTable("customer", {
 	id: serial("id").primaryKey(),
 	email: text("email").notNull().unique(),
 	name: text("name").notNull(),
@@ -46,7 +46,7 @@ export const orders = pgTable("orders", {
 	id: serial("id").primaryKey(),
 	clientId: integer("client_id")
 		.notNull()
-		.references(() => clients.id),
+		.references(() => customer.id),
 	createdAt: timestamp("created_at", { withTimezone: true })
 		.notNull()
 		.defaultNow(),
@@ -94,7 +94,7 @@ export const ordersRelations = relations(orders, ({ many }) => ({
 	orderItems: many(orderItems),
 }));
 
-export const clientsRelations = relations(clients, ({ many }) => ({
+export const customerRelations = relations(customer, ({ many }) => ({
 	orders: many(orders),
 }));
 
