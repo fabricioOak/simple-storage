@@ -1,5 +1,13 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, integer, timestamp, serial } from "drizzle-orm/pg-core";
+import {
+	pgTable,
+	text,
+	integer,
+	real,
+	timestamp,
+	serial,
+	uuid,
+} from "drizzle-orm/pg-core";
 
 export const customer = pgTable("customer", {
 	id: serial("id").primaryKey(),
@@ -28,7 +36,7 @@ export const productCategories = pgTable("product_categories", {
 export const products = pgTable("products", {
 	id: serial("id").primaryKey(),
 	name: text("name").notNull(),
-	price: integer("price").notNull(),
+	price: real("price").notNull(),
 	description: text("description").notNull().default(""),
 	stock: integer("stock").notNull().default(0),
 	categoryId: integer("category_id")
@@ -44,13 +52,11 @@ export const products = pgTable("products", {
 
 export const orders = pgTable("orders", {
 	id: serial("id").primaryKey(),
-	clientId: integer("client_id")
+	customerId: integer("customer_id")
 		.notNull()
 		.references(() => customer.id),
-	createdAt: timestamp("created_at", { withTimezone: true })
-		.notNull()
-		.defaultNow(),
-	updatedAt: timestamp("updated_at", { withTimezone: true })
+	orderNumber: uuid("order_number").defaultRandom(),
+	orderDate: timestamp("order_date", { withTimezone: true })
 		.notNull()
 		.defaultNow(),
 });
@@ -64,6 +70,7 @@ export const orderItems = pgTable("order_items", {
 		.notNull()
 		.references(() => products.id),
 	quantity: integer("quantity").notNull(),
+	unitPrice: real("unit_price").notNull(),
 	createdAt: timestamp("created_at", { withTimezone: true })
 		.notNull()
 		.defaultNow(),
