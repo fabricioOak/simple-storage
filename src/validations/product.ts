@@ -1,22 +1,18 @@
-import { products as P } from "../db/schema";
-
-type Product = typeof P.$inferInsert;
-
 export function validateProduct(product: Product) {
 	if (!product.name) {
-		return new Error("Nome do produto é obrigatório.");
+		return new Error("Product name is required.");
 	}
 
 	if (!product.price || product.price <= 0) {
-		return new Error("Preço do produto deve ser um número positivo.");
+		return new Error("Product price must be a positive number.");
 	}
 
 	if (!product.description) {
-		return new Error("Descrição do produto é obrigatória.");
+		return new Error("Product description is required.");
 	}
 
 	if (!product.categoryId || product.categoryId <= 0) {
-		return new Error("ID da categoria deve ser um número inteiro positivo.");
+		return new Error("Product category is required.");
 	}
 
 	return true;

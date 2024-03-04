@@ -1,5 +1,6 @@
 // routes/productRoutes.ts
-import { Hono } from "hono";
+import type { Hono } from "hono";
+
 import {
 	getAllProducts,
 	getProductById,

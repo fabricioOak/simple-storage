@@ -3,12 +3,10 @@ import type { Context } from "hono";
 import { products as P } from "../db/schema";
 import { validateProduct } from "../validations/product";
 import { eq } from "drizzle-orm";
-type Product = typeof P.$inferInsert;
 
 export const getAllProducts = async (c: Context) => {
 	try {
-		const products = await db.query.products.findMany();
-		return c.json({ products });
+		return c.json(await db.query.products.findMany());
 	} catch (error) {
 		return c.json({ error });
 	}
@@ -47,12 +45,13 @@ export const updateProduct = async (c: Context) => {
 	const { id } = c.req.param();
 
 	const body: Product = await c.req.json();
+	body.updatedAt = new Date();
 
 	try {
 		if (body.stock! < 0) return c.json({ error: "Stock cannot be negative." });
 		if (body.price! < 0) return c.json({ error: "Price cannot be negative." });
 
-		const updatedProduct = await db
+		await db
 			.update(P)
 			.set(body)
 			.where(eq(P.id, Number(id)));
@@ -66,7 +65,7 @@ export const updateProduct = async (c: Context) => {
 export const deleteProduct = async (c: Context) => {
 	const { id } = c.req.param();
 
-	if (!id) return c.json({ error: "Product id is required." });
+	if (!id) return c.json({ error: "Product 'id' is required." });
 
 	try {
 		await db.delete(P).where(eq(P.id, Number(id)));
