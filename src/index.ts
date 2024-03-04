@@ -4,7 +4,12 @@ import { cors } from "hono/cors";
 import { csrf } from "hono/csrf";
 
 import { serve } from "@hono/node-server";
+
+// Routes
 import productRoutes from "./routes/productRoutes";
+import productCategoriesRoutes from "./routes/productCategoryRoutes";
+import customerRoutes from "./routes/customerRoutes";
+import orderRoutes from "./routes/orderRoutes";
 
 const app = new Hono();
 
@@ -12,6 +17,9 @@ app.use(cors());
 app.use(csrf());
 
 productRoutes(app);
+productCategoriesRoutes(app);
+customerRoutes(app);
+orderRoutes(app);
 
 serve({
 	port: 3000,
