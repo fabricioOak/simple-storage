@@ -42,17 +42,26 @@ export const getOrderDetails = async (c: Context) => {
 			where: (u, { eq }) => eq(u.orderId, Number(id)),
 		});
 
+		const orderFixed = await Promise.all(
+			order.map(async (o) => {
+				return await Promise.all(
+					orderItems.map(async (oi) => {
+						return {
+							id: oi.id,
+							product: await db.query.products.findMany({
+								where: (u, { eq }) => eq(u.id, oi.productId),
+							}),
+							quantity: oi.quantity,
+							unitPrice: oi.unitPrice,
+						};
+					})
+				);
+			})
+		);
+
 		const orderDetails = {
 			order,
-			orderItems: orderItems.map(async (item) => ({
-				id: item.id,
-				orderId: item.orderId,
-				productName: await db.query.products.findMany({
-					where: (u, { eq }) => eq(u.id, item.productId),
-				}),
-				quantity: item.quantity,
-				unitPrice: item.unitPrice,
-			})),
+			orderItems: orderFixed,
 		};
 
 		return c.json(orderDetails);
