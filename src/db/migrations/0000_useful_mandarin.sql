@@ -1,11 +1,11 @@
-CREATE TABLE IF NOT EXISTS "clients" (
+CREATE TABLE IF NOT EXISTS "customer" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"email" text NOT NULL,
 	"name" text NOT NULL,
 	"contact" text NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	CONSTRAINT "clients_email_unique" UNIQUE("email")
+	CONSTRAINT "customer_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "order_items" (
@@ -13,15 +13,16 @@ CREATE TABLE IF NOT EXISTS "order_items" (
 	"order_id" integer NOT NULL,
 	"product_id" integer NOT NULL,
 	"quantity" integer NOT NULL,
+	"unit_price" real NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orders" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"client_id" integer NOT NULL,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+	"customer_id" integer NOT NULL,
+	"order_number" uuid DEFAULT gen_random_uuid(),
+	"order_date" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "product_categories" (
@@ -34,8 +35,9 @@ CREATE TABLE IF NOT EXISTS "product_categories" (
 CREATE TABLE IF NOT EXISTS "products" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
-	"price" integer NOT NULL,
-	"description" text NOT NULL,
+	"price" real NOT NULL,
+	"description" text DEFAULT '' NOT NULL,
+	"stock" integer DEFAULT 0 NOT NULL,
 	"category_id" integer NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
@@ -54,7 +56,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "orders" ADD CONSTRAINT "orders_client_id_clients_id_fk" FOREIGN KEY ("client_id") REFERENCES "clients"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "orders" ADD CONSTRAINT "orders_customer_id_customer_id_fk" FOREIGN KEY ("customer_id") REFERENCES "customer"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

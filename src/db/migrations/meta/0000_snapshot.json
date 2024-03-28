@@ -1,11 +1,11 @@
 {
-  "id": "403ca5fb-2d9b-497e-8c33-77f0b2c7663c",
+  "id": "80ca080c-9080-4945-8d8c-1d90c452ab87",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "clients": {
-      "name": "clients",
+    "customer": {
+      "name": "customer",
       "schema": "",
       "columns": {
         "id": {
@@ -51,8 +51,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "clients_email_unique": {
-          "name": "clients_email_unique",
+        "customer_email_unique": {
+          "name": "customer_email_unique",
           "nullsNotDistinct": false,
           "columns": [
             "email"
@@ -85,6 +85,12 @@
         "quantity": {
           "name": "quantity",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unit_price": {
+          "name": "unit_price",
+          "type": "real",
           "primaryKey": false,
           "notNull": true
         },
@@ -145,21 +151,21 @@
           "primaryKey": true,
           "notNull": true
         },
-        "client_id": {
-          "name": "client_id",
+        "customer_id": {
+          "name": "customer_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
+        "order_number": {
+          "name": "order_number",
+          "type": "uuid",
           "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
+          "notNull": false,
+          "default": "gen_random_uuid()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "order_date": {
+          "name": "order_date",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -168,12 +174,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "orders_client_id_clients_id_fk": {
-          "name": "orders_client_id_clients_id_fk",
+        "orders_customer_id_customer_id_fk": {
+          "name": "orders_customer_id_customer_id_fk",
           "tableFrom": "orders",
-          "tableTo": "clients",
+          "tableTo": "customer",
           "columnsFrom": [
-            "client_id"
+            "customer_id"
           ],
           "columnsTo": [
             "id"
@@ -239,7 +245,7 @@
         },
         "price": {
           "name": "price",
-          "type": "integer",
+          "type": "real",
           "primaryKey": false,
           "notNull": true
         },
@@ -247,7 +253,15 @@
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "''"
+        },
+        "stock": {
+          "name": "stock",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
         },
         "category_id": {
           "name": "category_id",
