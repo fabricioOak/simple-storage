@@ -11,9 +11,6 @@ dependencies:
   '@neondatabase/serverless':
     specifier: ^0.9.0
     version: 0.9.0
-  dotenv:
-    specifier: ^16.4.5
-    version: 16.4.5
   drizzle-orm:
     specifier: ^0.29.4
     version: 0.29.4(@neondatabase/serverless@0.9.0)
@@ -25,9 +22,15 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.17
     version: 20.11.24
+  dotenv:
+    specifier: ^16.4.5
+    version: 16.4.5
   drizzle-kit:
     specifier: ^0.20.14
     version: 0.20.14
+  pnpm:
+    specifier: ^8.15.5
+    version: 8.15.5
   ts-node:
     specifier: ^10.9.2
     version: 10.9.2(@types/node@20.11.24)(typescript@4.9.5)
@@ -627,7 +630,7 @@ packages:
   /dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
-    dev: false
+    dev: true
 
   /dreamopt@0.8.0:
     resolution: {integrity: sha512-vyJTp8+mC+G+5dfgsY+r3ckxlz+QMX40VjPQsZc5gxVAxLmi64TBoVkP54A/pRAXMXsbu2GMMBrZPxNv23waMg==}
@@ -1022,6 +1025,12 @@ packages:
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
     dev: false
+
+  /pnpm@8.15.5:
+    resolution: {integrity: sha512-sFGjLH5pWDO4SSbTspuMylclS1ifBknYmcbp0O22cLkex+KkNFm65zdZu1zmGcMmbxFr+THOItHvF1mn5Fqpbw==}
+    engines: {node: '>=16.14'}
+    hasBin: true
+    dev: true
 
   /postgres-array@2.0.0:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
